@@ -1,0 +1,9 @@
+node_modules/
+managed/
+.midnight-state.json
+.midnight-wallet-state/
+.env.local
+dist/
+frontend/dist/
+frontend/node_modules/
+server/proofs/

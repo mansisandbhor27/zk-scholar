@@ -1,0 +1,3 @@
+contract TinyTest {
+  fn init() {}
+}

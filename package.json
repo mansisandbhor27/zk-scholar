@@ -1,0 +1,53 @@
+{
+  "name": "zk-scholar",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "ZK-Scholar: Privacy-preserving scholarship eligibility verification on Midnight Network.",
+  "scripts": {
+    "compile": "compact compile contracts/ZKScholarVerifier.compact contracts/managed/zkScholar",
+    "setup": "npx tsx src/setup.ts",
+    "deploy": "npx tsx src/deploy.ts",
+    "network": "npx tsx src/network.ts",
+    "test": "npx vitest run",
+    "build": "npx tsc --noEmit",
+    "frontend:dev": "npm --prefix frontend install && npm --prefix frontend run dev",
+    "frontend:build": "npm --prefix frontend install && npm --prefix frontend run build"
+  },
+  "dependencies": {
+    "@midnight-ntwrk/compact-runtime": "0.16.0",
+    "@midnight-ntwrk/midnight-js-contracts": "4.1.1",
+    "@midnight-ntwrk/midnight-js-http-client-proof-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-level-private-state-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-node-zk-config-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-protocol": "4.1.1",
+    "@midnight-ntwrk/midnight-js-types": "4.1.1",
+    "@midnight-ntwrk/midnight-js-utils": "4.1.1",
+    "@midnight-ntwrk/wallet-sdk": "1.2.0",
+    "@midnight-ntwrk/wallet-sdk-facade": "4.0.1",
+    "@midnight-ntwrk/wallet-sdk-hd": "3.0.0",
+    "@midnight-ntwrk/wallet-sdk-dust-wallet": "4.0.0",
+    "@midnight-ntwrk/wallet-sdk-shielded": "3.0.0",
+    "@midnight-ntwrk/wallet-sdk-unshielded-wallet": "3.0.0",
+    "@midnight-ntwrk/ledger-v8": "8.0.0",
+    "@scure/bip32": "^2.0.1",
+    "@scure/bip39": "^2.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "rxjs": "^7.8.2",
+    "ws": "^8.21.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.23.1",
+    "typescript": "^6.0.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

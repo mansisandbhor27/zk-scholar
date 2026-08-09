@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  node:
+    image: midnightnetwork/midnight-node:latest
+    ports:
+      - '9944:9944'
+    command: ["--dev"]
+  indexer:
+    image: midnightnetwork/midnight-indexer:latest
+    ports:
+      - '8088:8088'
+    depends_on:
+      - node
+  proof-server:
+    image: midnightnetwork/midnight-proof-server:latest
+    ports:
+      - '6300:6300'
+    depends_on:
+      - node

@@ -1,0 +1,2 @@
+Exception: ZKScholarVerifier.compact line 7 char 1:
+  parse error: found "storage" looking for a program element or end of file
