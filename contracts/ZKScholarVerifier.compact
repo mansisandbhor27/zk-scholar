@@ -1,0 +1,50 @@
+pragma language_version 0.23.0;
+
+import CompactStandardLibrary;
+
+/*
+PUBLIC: scholarship thresholds, eligibility claim counts, and program state.
+PRIVATE: student personal data (sensitive fields are not recorded on-chain).
+The contract proves eligibility without revealing exact values, only that criteria pass.
+*/
+
+export ledger minScore: Uint<64>;
+export ledger maxIncome: Uint<64>;
+export ledger minAge: Uint<64>;
+export ledger claimCount: Counter;
+export ledger programCreated: Boolean;
+
+constructor() {
+  minScore = 0;
+  maxIncome = 0;
+  minAge = 0;
+  programCreated = false;
+}
+
+export circuit createScholarshipProgram(scoreThreshold: Uint<64>, incomeThreshold: Uint<64>, ageThreshold: Uint<64>): [] {
+  assert(programCreated == false, "Program already exists");
+  assert(scoreThreshold <= 100, "Score threshold must be <= 100");
+  assert(ageThreshold <= 120, "Age threshold must be realistic");
+  assert(incomeThreshold <= 10000000, "Income threshold too high");
+
+  minScore = disclose(scoreThreshold);
+  maxIncome = disclose(incomeThreshold);
+  minAge = disclose(ageThreshold);
+  programCreated = disclose(true);
+}
+
+export circuit proveEligibility(score: Uint<64>, income: Uint<64>, age: Uint<64>): [] {
+  assert(programCreated == true, "Program not created");
+
+  assert(score >= minScore, "Score below threshold");
+  assert(income < maxIncome, "Income above threshold");
+  assert(age >= minAge, "Age below threshold");
+
+  disclose(true);
+}
+
+export circuit recordClaim(): [] {
+  assert(programCreated == true, "Program not created");
+  claimCount.increment(1);
+}
+

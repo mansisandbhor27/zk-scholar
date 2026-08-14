@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Build artifacts
+dist/
+frontend/dist/
+
+# DO NOT exclude managed/ - it contains compiled contract artifacts
+# managed/contract/index.js is the compiled contract needed by the app
+# managed/keys/*.verifier files are verification keys
+# managed/zkir/ contains zkIR files
+# managed/compiler/contract-info.json contains compiler output
+
+# Runtime state and wallet data
+.midnight-state.json
+.midnight-wallet-state/
+
+# Environment variables (all .env files should be local)
+.env
+.env.local
+.env.*
+
+# Log files
+*.log
+
+# Error output files
+*.err
+
+# Build artifacts from CI/CD
+frontend_build.exit.txt
+frontend_ci.exit.txt
+npm_ci.exit.txt
+test-wsl.txt
+wsl_marker_confirm.txt
+
+# Proof artifacts from development/testing
+server/proofs/*.json

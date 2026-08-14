@@ -1,0 +1,30 @@
+{
+  "name": "zk-scholar",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "setup": "npm install && cd frontend && npm install",
+    "compile": "cross-env COMPACTC_VERSION=0.31.1 npx run-compactc contracts/ZKScholarVerifier.compact managed",
+    "test": "npx vitest run",
+    "build": "tsc --noEmit",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "deploy": "node --import tsx src/deploy.ts",
+    "server": "node server/index.js"
+  },
+  "dependencies": {
+    "@midnight-ntwrk/dapp-connector-api": "^4.0.1",
+    "@midnight-ntwrk/midnight-js-compact": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-contracts": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-fetch-zk-config-provider": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-http-client-proof-provider": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "cross-env": "^7.0.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^3.2.7"
+  }
+}
