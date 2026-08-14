@@ -120,24 +120,51 @@ useEffect(() => {
       };
 
       const midnightProvider = {
-        submitTx: async (tx: any): Promise<string> => {
-          console.log('Submitting transaction via wallet...');
+  submitTx: async (tx: any): Promise<string> => {
+    console.log('🚀 submitTx started');
 
-          const serializedTx = tx.serialize();
-          const hexTx = toHex(serializedTx);
+    try {
+      const serializedTx = tx.serialize();
+      const hexTx = toHex(serializedTx);
 
-          await connectedAPI.submitTransaction(hexTx);
+      console.log('📦 Serialized transaction length:', hexTx.length);
+      console.log('📤 Calling wallet submitTransaction...');
 
-          const result = tx.identifiers();
+      const submitResult = await Promise.race([
+        connectedAPI.submitTransaction(hexTx),
+        new Promise((_, reject) =>
+          setTimeout(
+            () =>
+              reject(
+                new Error(
+                  'Wallet submitTransaction timed out after 60 seconds'
+                )
+              ),
+            60000
+          )
+        ),
+      ]);
 
-          console.log(
-            'Transaction submitted, ID:',
-            result[0]
-          );
+      console.log(
+        '✅ Wallet submitTransaction returned:',
+        submitResult
+      );
 
-          return result[0];
-        },
-      };
+      const result = tx.identifiers();
+      const txId = result[0];
+
+      console.log('✅ Transaction submitted, ID:', txId);
+
+      return txId;
+    } catch (error: any) {
+      console.error('❌ submitTx FAILED:', error);
+      console.error('❌ Error message:', error?.message);
+      console.error('❌ Error stack:', error?.stack);
+      throw error;
+    }
+  },
+};
+         
 
       const proofProvider =
         createProofProvider(provingProvider);

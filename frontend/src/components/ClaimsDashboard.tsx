@@ -5,8 +5,14 @@ import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-p
 import { ledger } from '../../managed/contract/index';
 import type { ContractAddress } from '@midnight-ntwrk/midnight-js-protocol/compact-runtime';
 
-const indexerUrl = import.meta.env.VITE_INDEXER_URL || 'https://indexer.preview.midnight.network';
-const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS || '';
+const indexerUrl =
+  import.meta.env.VITE_INDEXER_URL ||
+  'https://indexer.preview.midnight.network';
+
+const contractAddress =
+  localStorage.getItem('zk-scholar-contract-address') ||
+  import.meta.env.VITE_CONTRACT_ADDRESS ||
+  '';
 const INDEXER_URL = "https://indexer.preview.midnight.network/api/v4/graphql";
 const INDEXER_WS_URL = "wss://indexer.preview.midnight.network/api/v4/graphql";
 
@@ -42,7 +48,9 @@ export default function ClaimsDashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch program state
+console.log('🔥 Claims: fetchData started');
+console.log('Claims: Contract address:', contractAddress);    
+  // Fetch program state
       if (contractAddress && contractAddress !== 'REPLACE_WITH_DEPLOYED_ADDRESS') {
         try {
           const contractState =
@@ -63,8 +71,13 @@ setProgramState({
   claimCount: contractLedger.claimCount,
   programCreated: contractLedger.programCreated,
 });
-        } catch (err) {
-          // Ignore error for program state
+                        } catch (err) {
+          console.error('❌ Claims: Failed to read contract state:', err);
+          setError(
+            err instanceof Error
+              ? err.message
+              : 'Unable to read contract state.'
+          );
         }
       }
 
