@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Users, CheckCircle, Calendar, Hash, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
+import { ledger } from '../../managed/contract/index';
+import type { ContractAddress } from '@midnight-ntwrk/midnight-js-protocol/compact-runtime';
 
 const indexerUrl = import.meta.env.VITE_INDEXER_URL || 'https://indexer.preview.midnight.network';
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS || '';
+const INDEXER_URL = "https://indexer.preview.midnight.network/api/v4/graphql";
+const INDEXER_WS_URL = "wss://indexer.preview.midnight.network/api/v4/graphql";
+
+const publicDataProvider = indexerPublicDataProvider(
+  INDEXER_URL,
+  INDEXER_WS_URL
+);
 
 interface ProofRecord {
   id: string;
@@ -35,11 +45,24 @@ export default function ClaimsDashboard() {
       // Fetch program state
       if (contractAddress && contractAddress !== 'REPLACE_WITH_DEPLOYED_ADDRESS') {
         try {
-          const response = await fetch(`${indexerUrl}/contracts/${contractAddress}`);
-          if (response.ok) {
-            const json = await response.json();
-            setProgramState(json.state || {});
-          }
+          const contractState =
+  await publicDataProvider.watchForContractState(
+    contractAddress as ContractAddress
+  );
+
+console.log('✓ Claims: Contract state received:', contractState);
+
+const contractLedger = ledger(contractState.data);
+
+console.log('✓ Claims: Contract ledger:', contractLedger);
+
+setProgramState({
+  minScore: contractLedger.minScore,
+  maxIncome: contractLedger.maxIncome,
+  minAge: contractLedger.minAge,
+  claimCount: contractLedger.claimCount,
+  programCreated: contractLedger.programCreated,
+});
         } catch (err) {
           // Ignore error for program state
         }
