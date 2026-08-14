@@ -236,6 +236,11 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
       );
 
       console.log('✓ proveEligibility transaction submitted:', result);
+console.log('Calling recordClaim...');
+
+const claimResult = await callTx.recordClaim();
+
+console.log('✓ recordClaim transaction submitted:', claimResult);
 
       setStatus('success');
       setMessage(
