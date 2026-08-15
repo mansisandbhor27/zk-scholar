@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@midnight-ntwrk/dapp-connector-api": "^4.0.1",
+    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "^4.1.1",
     "buffer": "^6.0.3",
     "lucide-react": "^0.263.1",
     "react": "^18.3.1",
