@@ -24,8 +24,30 @@ The project demonstrates how students can prove scholarship eligibility without 
 | Claims Dashboard | ✅ Implemented |
 | Dynamic Contract Address | ✅ Implemented |
 | TypeScript Build | ✅ Passed |
+### 🚀 Deployed Smart Contract
 
----
+The ZK-Scholar Compact smart contract is deployed on the **Midnight Preview Network**.
+
+| Detail | Value |
+|---|---|
+| Network | Midnight Preview |
+| Contract Address | `80de69708ee587e56690a1b1b12a65d850939c59f4307aa82f7ca9de217b6493` |
+| Contract Language | Compact |
+| State Access | Midnight Indexer |
+| Wallet | Midnight Preview Wallet |
+
+The deployed contract is used by the application to:
+
+- Read scholarship program thresholds
+- Read the on-chain claim count
+- Verify eligibility proofs
+- Record verified scholarship claims
+
+**Contract Address:**
+
+```text
+80de69708ee587e56690a1b1b12a65d850939c59f4307aa82f7ca9de217b6493
+```
 
 # 🔐 Privacy Model
 
