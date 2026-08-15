@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Lock, Sparkles, Database, CheckCircle, Users, BarChart3 } from 'lucide-react';
+import { INDEXER_URL, INDEXER_WS_URL } from '../lib/indexer';
+import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
+import { ledger } from '../../managed/contract/index';
+import type { ContractAddress } from '@midnight-ntwrk/midnight-js-protocol/compact-runtime';
 
-const indexerUrl = import.meta.env.VITE_INDEXER_URL || 'https://indexer.preview.midnight.network';
+const publicDataProvider = indexerPublicDataProvider(INDEXER_URL, INDEXER_WS_URL);
+
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS || '';
 
 interface ProgramState {
@@ -26,16 +31,17 @@ export default function HomeScreen() {
 
     const fetchState = async () => {
       try {
-        const response = await fetch(`${indexerUrl}/contracts/${contractAddress}`);
-        if (!response.ok) throw new Error('Failed to fetch contract state');
-        const json = await response.json();
-        const state = json.state || {};
+        const contractState =
+          await publicDataProvider.watchForContractState(
+            contractAddress as ContractAddress
+          );
+        const contractLedger = ledger(contractState.data);
         setProgramState({
-          minScore: BigInt(state.minScore || 70),
-          maxIncome: BigInt(state.maxIncome || 500000),
-          minAge: BigInt(state.minAge || 18),
-          claimCount: BigInt(state.claimCount || 0),
-          programCreated: state.programCreated || false,
+          minScore: contractLedger.minScore,
+          maxIncome: contractLedger.maxIncome,
+          minAge: contractLedger.minAge,
+          claimCount: contractLedger.claimCount,
+          programCreated: contractLedger.programCreated,
         });
       } catch (err) {
         setError('Unable to fetch program state from indexer.');

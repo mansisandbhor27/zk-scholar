@@ -3,21 +3,9 @@ import { useContractDeployment } from '../hooks/useContractDeployment';
 import { Settings, Save, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
+import { INDEXER_URL, INDEXER_WS_URL } from '../lib/indexer';
 import { ledger } from '../../managed/contract/index';
 import type { ContractAddress } from '@midnight-ntwrk/midnight-js-protocol/compact-runtime';
-
-
-const INDEXER_URL =
-  import.meta.env.VITE_INDEXER_URL ||
-  'https://indexer.preview.midnight.network/api/v4/graphql';
-
-const INDEXER_WS_URL =
-  import.meta.env.VITE_INDEXER_WS_URL ||
-  'wss://indexer.preview.midnight.network/api/v4/graphql';
-
-const indexerUrl =
-  import.meta.env.VITE_INDEXER_URL ||
-  'https://indexer.preview.midnight.network/api/v4/graphql';
 
 const publicDataProvider = indexerPublicDataProvider(
   INDEXER_URL,
