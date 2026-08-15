@@ -37,17 +37,40 @@ export default function DashboardScreen() {
       }
 
       try {
-        const response = await fetch(`${indexerUrl}/contracts/${contractAddress}`);
-        if (!response.ok) throw new Error('Failed to fetch contract state');
-        const json = await response.json();
-        const state = json.state || {};
-        setProgramState({
-          minScore: BigInt(state.minScore || 0),
-          maxIncome: BigInt(state.maxIncome || 0),
-          minAge: BigInt(state.minAge || 0),
-          claimCount: BigInt(state.claimCount || 0),
-          programCreated: state.programCreated || false,
-        });
+        const { indexerPublicDataProvider } =
+  await import('@midnight-ntwrk/midnight-js-indexer-public-data-provider');
+
+const { ledger } =
+  await import('../../managed/contract/index');
+
+const { ContractAddress } =
+  await import('@midnight-ntwrk/midnight-js-protocol/compact-runtime');
+
+const provider = indexerPublicDataProvider(
+  'https://indexer.preview.midnight.network/api/v4/graphql',
+  'wss://indexer.preview.midnight.network/api/v4/graphql'
+);
+
+console.log('Dashboard: Reading contract state:', contractAddress);
+
+const contractState =
+  await provider.watchForContractState(
+    contractAddress as ContractAddress
+  );
+
+console.log('Dashboard: Contract state received:', contractState);
+
+const contractLedger = ledger(contractState.data);
+
+console.log('Dashboard: Contract ledger:', contractLedger);
+
+setProgramState({
+  minScore: contractLedger.minScore,
+  maxIncome: contractLedger.maxIncome,
+  minAge: contractLedger.minAge,
+  claimCount: contractLedger.claimCount,
+  programCreated: contractLedger.programCreated,
+});
       } catch (err) {
         setError('Unable to read contract state from indexer.');
       } finally {

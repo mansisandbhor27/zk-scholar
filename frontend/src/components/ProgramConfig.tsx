@@ -28,9 +28,6 @@ const contractAddress =
   localStorage.getItem('zk-scholar-contract-address') ||
   import.meta.env.VITE_CONTRACT_ADDRESS ||
   '';
-  localStorage.getItem('zk-scholar-contract-address') ||
-  import.meta.env.VITE_CONTRACT_ADDRESS ||
-  '';
 
 interface ProgramState {
   minScore: bigint;
@@ -64,16 +61,14 @@ const { callTx } = useContractDeployment();
       }
 
       try {
-        const contractState = await publicDataProvider.queryContractState(
-  contractAddress as ContractAddress
-);
+        const contractState =
+  await publicDataProvider.watchForContractState(
+    contractAddress as ContractAddress
+  );
 
-if (!contractState) {
-  throw new Error('Contract state not found on indexer.');
-}
 console.log('✓ Contract state received:', contractState);
 
-const contractLedger = ledger(contractState);
+const contractLedger = ledger(contractState.data);
 
 console.log('✓ Contract ledger:', contractLedger);
 
