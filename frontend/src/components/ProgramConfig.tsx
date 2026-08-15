@@ -50,9 +50,13 @@ const { callTx } = useContractDeployment();
 
       try {
         const contractState =
-  await publicDataProvider.watchForContractState(
+  await publicDataProvider.queryContractState(
     contractAddress as ContractAddress
   );
+
+if (!contractState) {
+  throw new Error('Contract state not found on indexer');
+}
 
 console.log('✓ Contract state received:', contractState);
 

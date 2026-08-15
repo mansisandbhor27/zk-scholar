@@ -14,14 +14,18 @@ function toHttpGraphQL(endpoint: string): string {
 }
 
 /**
- * Derives the matching GraphQL WebSocket endpoint (wss://<base>/api/v4/graphql)
- * from an HTTP(S) endpoint.
+ * Derives the matching GraphQL WebSocket endpoint
+ * (wss://<base>/api/v4/graphql/ws) from an HTTP(S) endpoint. The subscriptions
+ * endpoint sits under the `/ws` suffix, distinct from the HTTP query URL.
  */
 function toWsGraphQL(endpoint: string): string {
-  const httpEndpoint = toHttpGraphQL(endpoint);
-  return httpEndpoint
-    .replace(/^https:/i, 'wss:')
-    .replace(/^http:/i, 'ws:');
+  const trimmed = (endpoint || DEFAULT_INDEXER_BASE).trim().replace(/\/+$/, '');
+  const wsPath = trimmed.endsWith('/api/v4/graphql/ws')
+    ? trimmed
+    : trimmed.endsWith('/api/v4/graphql')
+      ? `${trimmed}/ws`
+      : `${trimmed}/api/v4/graphql/ws`;
+  return wsPath.replace(/^https:/i, 'wss:').replace(/^http:/i, 'ws:');
 }
 
 export const INDEXER_URL = toHttpGraphQL(import.meta.env.VITE_INDEXER_URL);

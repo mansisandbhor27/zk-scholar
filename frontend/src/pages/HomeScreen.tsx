@@ -32,9 +32,14 @@ export default function HomeScreen() {
     const fetchState = async () => {
       try {
         const contractState =
-          await publicDataProvider.watchForContractState(
+          await publicDataProvider.queryContractState(
             contractAddress as ContractAddress
           );
+
+        if (!contractState) {
+          throw new Error('Contract state not found on indexer');
+        }
+
         const contractLedger = ledger(contractState.data);
         setProgramState({
           minScore: contractLedger.minScore,
