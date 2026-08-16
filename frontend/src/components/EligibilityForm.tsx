@@ -384,12 +384,16 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
                 
                 <button
                   type="submit"
-                  disabled={status === 'generating' || status === 'submitting' || !eligibility.eligible}
+                  disabled={!callTx || status === 'generating' || status === 'submitting' || !eligibility.eligible}
                   className="btn-primary px-6 py-3 rounded-full font-medium glow flex items-center gap-3 w-full md:w-auto"
                 >
                   {status === 'generating' && <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.2)" strokeWidth="4" fill="none"/></svg>}
                   {status === 'submitting' && <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.2)" strokeWidth="4" fill="none"/></svg>}
-                  {status === 'success' ? 'Proof Submitted' : 'Generate & Submit Proof'}
+                  {status === 'success'
+  ? 'Proof Submitted'
+  : !callTx
+    ? 'Loading Contract...'
+    : 'Generate & Submit Proof'}
                 </button>
               </div>
 
