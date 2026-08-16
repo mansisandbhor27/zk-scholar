@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useContractDeployment } from '../hooks/useContractDeployment';
 import { useWalletContext } from '../contexts/WalletContext';
+import { setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 import { Lock, ShieldCheck, Sparkles, Database, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
@@ -66,6 +67,7 @@ useEffect(() => {
     }
 
     try {
+
       console.log('Reading contract state:', contractAddress);
 
       const contractState =
@@ -149,7 +151,8 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
   };
 
   const handleSubmit = async (event?: React.FormEvent) => {
-    console.log('🔥 GENERATE & SUBMIT BUTTON CLICKED');
+   setNetworkId('preview');
+ console.log('🔥 GENERATE & SUBMIT BUTTON CLICKED');
 
     if (event) event.preventDefault();
     setMessage(null);
