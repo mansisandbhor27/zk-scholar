@@ -38,6 +38,8 @@ const INITIAL_PRIVATE_STATE: ZKScholarState = {
   programCreated: false,
 };
 
+setNetworkId('preview');
+
 export function useContractDeployment() {
 const { connectedAPI, networkName } = useWalletContext();
   const [isDeploying, setIsDeploying] = useState(false);
