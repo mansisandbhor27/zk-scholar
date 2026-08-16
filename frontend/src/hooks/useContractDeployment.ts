@@ -104,9 +104,9 @@ console.log('CALLTX EFFECT READY', {
       const { Contract } = await import('../../managed/contract/index');
 
       const zkConfigProvider = new FetchZkConfigProvider(
-        window.location.origin,
-        fetch.bind(window)
-      );
+  ZK_CONFIG_URL,
+  fetch.bind(window)
+);
 
       const provingProvider =
         await connectedAPI.getProvingProvider(zkConfigProvider);
@@ -347,10 +347,12 @@ console.log('CALLTX READY:', !!foundContract.callTx);
       // Use FetchZkConfigProvider to get proving keys from the network
       // Note: FetchZkConfigProvider expects a CONFIG server URL, not a prover server URL
       // The wallet's config provides the proverServerUri for proof submission
-      const zkConfigProvider = new FetchZkConfigProvider(
-  window.location.origin,
+      
+const zkConfigProvider = new FetchZkConfigProvider(
+  ZK_CONFIG_URL,
   fetch.bind(window)
 );
+
       const { shieldedCoinPublicKey, shieldedEncryptionPublicKey } = (await connectedAPI.getShieldedAddresses()) as any;
       
       // Get the proving provider from the wallet
