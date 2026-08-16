@@ -18,17 +18,21 @@ function frontendModule(relative: string): string {
 export default defineConfig({
   resolve: {
 dedupe: ['@midnight-ntwrk/compact-js'],
-    alias: {
-      '@midnight-ntwrk/compact-runtime': frontendModule(
-        'node_modules/@midnight-ntwrk/compact-runtime'
-      ),
-      '@midnight-ntwrk/onchain-runtime-v3': frontendModule(
-        'node_modules/@midnight-ntwrk/onchain-runtime-v3'
-      ),
-'@midnight-ntwrk/midnight-js-network-id': frontendModule(
-  'node_modules/@midnight-ntwrk/midnight-js-network-id'
-),
-    },
+
+alias: {
+  '@midnight-ntwrk/compact-runtime': frontendModule(
+    'node_modules/@midnight-ntwrk/compact-runtime'
+  ),
+  '@midnight-ntwrk/onchain-runtime-v3': frontendModule(
+    'node_modules/@midnight-ntwrk/onchain-runtime-v3'
+  ),
+  '@midnight-ntwrk/midnight-js-network-id': frontendModule(
+    'node_modules/@midnight-ntwrk/midnight-js-network-id'
+  ),
+  '@midnight-ntwrk/ledger-v8': frontendModule(
+    'node_modules/@midnight-ntwrk/ledger-v8'
+  ),
+},
   },
   build: {
     target: 'esnext',
