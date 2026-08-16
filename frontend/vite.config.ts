@@ -25,6 +25,9 @@ dedupe: ['@midnight-ntwrk/compact-js'],
       '@midnight-ntwrk/onchain-runtime-v3': frontendModule(
         'node_modules/@midnight-ntwrk/onchain-runtime-v3'
       ),
+'@midnight-ntwrk/midnight-js-network-id': frontendModule(
+  'node_modules/@midnight-ntwrk/midnight-js-network-id'
+),
     },
   },
   build: {
