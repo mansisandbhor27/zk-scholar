@@ -212,7 +212,7 @@ console.log('✓ createScholarshipProgram transaction submitted:', result);
             </p>
           </div>
         )}
-
+{!programCreated && (
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm text-gray-300 mb-1">Minimum Score Threshold (%)</label>
@@ -284,7 +284,8 @@ console.log('✓ createScholarshipProgram transaction submitted:', result);
               <div className="text-sm text-gray-300 mt-2">{message}</div>
             </div>
           )}
-        </form>
+          </form>
+)}
       </div>
 
       <div className="mt-8 glass p-6 rounded-xl max-w-2xl mx-auto">
