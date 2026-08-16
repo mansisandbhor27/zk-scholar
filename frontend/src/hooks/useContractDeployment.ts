@@ -48,8 +48,14 @@ const [callTx, setCallTx] = useState<any>(null);
 
   useEffect(() => {
     const savedAddress = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (savedAddress) {
-      setContractAddress(savedAddress);
+    const envAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
+    const address =
+      savedAddress ||
+      (envAddress && envAddress !== 'REPLACE_WITH_DEPLOYED_ADDRESS'
+        ? envAddress
+        : undefined);
+    if (address) {
+      setContractAddress(address);
     }
   }, []);
 useEffect(() => {

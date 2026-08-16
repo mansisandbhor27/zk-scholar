@@ -188,6 +188,8 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
     setStatus('generating');
     
     try {
+      console.log('🔵 STEP 1/6: BEFORE proof generation / private-input hashing');
+
       // Generate privacy-preserving data
       const saltArray = new Uint8Array(16);
       window.crypto.getRandomValues(saltArray);
@@ -200,6 +202,8 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
       const data = encoder.encode(toHash);
       const digest = await window.crypto.subtle.digest('SHA-256', data);
       const hashHex = Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+
+      console.log('🟢 STEP 2/6: AFTER proof generation (hash of private inputs):', hashHex.slice(0, 16) + '…');
 
       // Store proof data locally
       const localRecord = {
@@ -224,10 +228,7 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
         );
       }
 
-      console.log('Calling proveEligibility...');
-      console.log('Score:', score);
-      console.log('Income:', income);
-      console.log('Age:', age);
+      console.log('🟡 STEP 3/6: BEFORE proveEligibility callTx', { score, income, age });
 
       const result = await callTx.proveEligibility(
         BigInt(score),
@@ -235,12 +236,13 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
         BigInt(age)
       );
 
-      console.log('✓ proveEligibility transaction submitted:', result);
-console.log('Calling recordClaim...');
+      console.log('🟢 STEP 4/6: AFTER proveEligibility — callTx returned:', result);
 
-const claimResult = await callTx.recordClaim();
+      console.log('🟡 STEP 5/6: BEFORE recordClaim');
 
-console.log('✓ recordClaim transaction submitted:', claimResult);
+      const claimResult = await callTx.recordClaim();
+
+      console.log('🟢 STEP 6/6: AFTER recordClaim — callTx returned:', claimResult);
 
       setStatus('success');
       setMessage(
@@ -254,6 +256,21 @@ console.log('✓ recordClaim transaction submitted:', claimResult);
       setTimeout(() => setMessage(null), 5000);
       
     } catch (err) {
+      console.error('🔥 PROOF SUBMISSION ERROR:', err);
+      console.error('🔥 ERROR STACK:', err instanceof Error ? err.stack : err);
+      console.error('🔥 ERROR MESSAGE:', err instanceof Error ? err.message : String(err));
+      console.error('🔥 ERROR OBJECT:', err);
+      if (err && typeof err === 'object') {
+        try {
+          const cause = (err as { cause?: unknown })?.cause;
+          if (cause !== undefined) {
+            console.error('🔥 ERROR CAUSE:', cause);
+            if (cause instanceof Error) console.error('🔥 ERROR CAUSE STACK:', cause.stack);
+          }
+        } catch (_) {
+          /* ignore nested inspection errors */
+        }
+      }
       setStatus('error');
       setError('An error occurred during proof generation or submission.');
     }
