@@ -17,6 +17,7 @@ function frontendModule(relative: string): string {
 
 export default defineConfig({
   resolve: {
+dedupe: ['@midnight-ntwrk/compact-js'],
     alias: {
       '@midnight-ntwrk/compact-runtime': frontendModule(
         'node_modules/@midnight-ntwrk/compact-runtime'
