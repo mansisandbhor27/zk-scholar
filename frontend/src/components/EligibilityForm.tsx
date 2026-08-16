@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useContractDeployment } from '../hooks/useContractDeployment';
+import { useWalletContext } from '../contexts/WalletContext';
 import { Lock, ShieldCheck, Sparkles, Database, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
@@ -32,8 +33,9 @@ interface ProgramState {
 }
 
 export default function EligibilityForm() {
-const { callTx } = useContractDeployment();  
-const [programState, setProgramState] = useState<ProgramState | null>(null);
+  const { callTx, contractAddress: hookContractAddress, networkName: hookNetworkName } = useContractDeployment();
+  const { connectedAPI, isConnected: walletIsConnected } = useWalletContext();
+  const [programState, setProgramState] = useState<ProgramState | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -42,6 +44,14 @@ const [programState, setProgramState] = useState<ProgramState | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [walletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
+
+  console.log("ELIGIBILITY CALLTX STATE", {
+    hasCallTx: !!callTx,
+    contractAddress: hookContractAddress,
+    networkName: hookNetworkName,
+    walletIsConnected,
+    hasConnectedAPI: !!connectedAPI
+  });
 
 // Fetch program state
 useEffect(() => {
@@ -104,19 +114,15 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
   fetchState();
 }, []);
 
-  // Check wallet connection status
+    // Check wallet connection status from the real wallet context
   useEffect(() => {
-    const checkWallet = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const connected = urlParams.get('wallet_connected') === 'true';
-      setWalletConnected(connected);
-      if (connected) {
-        const address = urlParams.get('wallet_address');
-        setWalletAddress(address || null);
-      }
-    };
-    checkWallet();
-  }, []);
+    setWalletConnected(walletIsConnected);
+    if (walletIsConnected && connectedAPI) {
+      connectedAPI.getShieldedAddresses().then((addrs: any) => {
+        setWalletAddress(addrs.shieldedAddress || null);
+      }).catch(() => setWalletAddress(null));
+    }
+  }, [walletIsConnected, connectedAPI]);
 
   // Check eligibility before submission
   const checkEligibility = () => {
@@ -219,8 +225,9 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
       saved.push(localRecord);
       localStorage.setItem('zk-scholar-proofs', JSON.stringify(saved));
 
-      setStatus('submitting');
+            setStatus('submitting');
 
+      console.log("SUBMIT CALLTX CHECK", !!callTx);
       // Submit proof to backend
             if (!callTx) {
         throw new Error(

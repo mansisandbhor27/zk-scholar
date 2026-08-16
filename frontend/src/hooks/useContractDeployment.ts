@@ -1,7 +1,7 @@
 import { createCircuitCallTxInterface } from '@midnight-ntwrk/midnight-js-contracts';
 import { useState, useCallback, useEffect } from 'react';
 import type { ConnectedAPI } from '@midnight-ntwrk/dapp-connector-api';
-import { useWallet } from './useWallet';
+import { useWalletContext } from '../contexts/WalletContext';
 import {
   make as makeCompiledContract,
   withVacantWitnesses,
@@ -39,7 +39,7 @@ const INITIAL_PRIVATE_STATE: ZKScholarState = {
 };
 
 export function useContractDeployment() {
-const { connectedAPI, networkName } = useWallet();
+const { connectedAPI, networkName } = useWalletContext();
   const [isDeploying, setIsDeploying] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [contractAddress, setContractAddress] = useState<string | null>(null);
@@ -60,7 +60,12 @@ const [callTx, setCallTx] = useState<any>(null);
   }, []);
 useEffect(() => {
   const initializeExistingContract = async () => {
-      console.log('INIT callTx: inputs', { hasConnectedAPI: !!connectedAPI, hasContractAddress: !!contractAddress, hasNetworkName: !!networkName, networkName, contractAddress });
+          console.log('CALLTX INIT INPUTS', {
+      hasConnectedAPI: !!connectedAPI,
+      hasContractAddress: !!contractAddress,
+      networkName,
+      hasCompiledContract: false
+    });
     if (!connectedAPI || !contractAddress || !networkName) {
       return;
     }
@@ -273,13 +278,7 @@ useEffect(() => {
         midnightProvider,
       };
 
-      console.log("COMPILED CONTRACT CHECK", {
-        hasCompiledContract: !!compiledContract,
-        hasCtor: !!compiledContract?.Contract?.ctor,
-        compiledContractKeys: compiledContract ? Object.keys(compiledContract) : [],
-        contractKeys: compiledContract?.Contract ? Object.keys(compiledContract.Contract) : [],
-      });
-      console.log("PASSED TO createCircuitCallTxInterface:", compiledContract);
+            console.log('CALLTX CREATING');
       const existingCallTx =
         createCircuitCallTxInterface(
           providers,
@@ -288,12 +287,11 @@ useEffect(() => {
           ZKSCHOLAR_PRIVATE_STATE_ID
         );
 
-      console.log('INIT callTx: createCircuitCallTxInterface ok');
+      console.log('CALLTX CREATED', !!existingCallTx);
       setCallTx(existingCallTx);
 
-      console.log(
-        '✓ Existing contract callTx initialized'
-      );
+      console.log('CALLTX READY', !!existingCallTx);
+      console.log('✓ Existing contract callTx initialized');
     } catch (err: any) {
       console.error('INIT callTx: FAILED to initialize existing contract callTx', err);
       console.error('INIT callTx: error message:', err instanceof Error ? err.message : String(err));
