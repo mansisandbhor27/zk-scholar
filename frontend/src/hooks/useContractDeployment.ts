@@ -104,7 +104,7 @@ console.log('CALLTX EFFECT READY', {
       const { Contract } = await import('../../managed/contract/index');
 
       const zkConfigProvider = new FetchZkConfigProvider(
-  ZK_CONFIG_URL,
+  window.location.origin,
   fetch.bind(window)
 );
 
@@ -349,7 +349,7 @@ console.log('CALLTX READY:', !!foundContract.callTx);
       // The wallet's config provides the proverServerUri for proof submission
       
 const zkConfigProvider = new FetchZkConfigProvider(
-  ZK_CONFIG_URL,
+  window.location.origin,
   fetch.bind(window)
 );
 
