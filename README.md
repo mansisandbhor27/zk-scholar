@@ -1,7 +1,11 @@
 # 🎓 ZK-Scholar
 
 ## Privacy-Preserving Scholarship Eligibility Verification on Midnight
+## 🌐 Live Demo
 
+🚀 **[ZK-Scholar Live Demo](https://zk-scholar-mugx-dwarkf8k-mansisandbhor27s-projects.vercel.app/eligibility)**
+
+Try the privacy-preserving scholarship eligibility proof directly on the Midnight Preview Network.
 ZK-Scholar is a privacy-preserving scholarship eligibility verification dApp built on the **Midnight Network** using **Compact smart contracts, Zero-Knowledge Proofs, React, and TypeScript**.
 
 The project demonstrates how students can prove scholarship eligibility without exposing sensitive eligibility information as public blockchain data.
