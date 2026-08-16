@@ -60,6 +60,7 @@ const [callTx, setCallTx] = useState<any>(null);
   }, []);
 useEffect(() => {
   const initializeExistingContract = async () => {
+      console.log('INIT callTx: inputs', { hasConnectedAPI: !!connectedAPI, hasContractAddress: !!contractAddress, hasNetworkName: !!networkName, networkName, contractAddress });
     if (!connectedAPI || !contractAddress || !networkName) {
       return;
     }
@@ -89,6 +90,7 @@ useEffect(() => {
 
       const provingProvider =
         await connectedAPI.getProvingProvider(zkConfigProvider);
+      console.log('INIT callTx: getProvingProvider ok');
 
       const addresses =
         await connectedAPI.getShieldedAddresses() as any;
@@ -271,6 +273,13 @@ useEffect(() => {
         midnightProvider,
       };
 
+      console.log("COMPILED CONTRACT CHECK", {
+        hasCompiledContract: !!compiledContract,
+        hasCtor: !!compiledContract?.Contract?.ctor,
+        compiledContractKeys: compiledContract ? Object.keys(compiledContract) : [],
+        contractKeys: compiledContract?.Contract ? Object.keys(compiledContract.Contract) : [],
+      });
+      console.log("PASSED TO createCircuitCallTxInterface:", compiledContract);
       const existingCallTx =
         createCircuitCallTxInterface(
           providers,
@@ -279,16 +288,16 @@ useEffect(() => {
           ZKSCHOLAR_PRIVATE_STATE_ID
         );
 
+      console.log('INIT callTx: createCircuitCallTxInterface ok');
       setCallTx(existingCallTx);
 
       console.log(
         '✓ Existing contract callTx initialized'
       );
-    } catch (err) {
-      console.error(
-        'Failed to initialize existing contract callTx:',
-        err
-      );
+    } catch (err: any) {
+      console.error('INIT callTx: FAILED to initialize existing contract callTx', err);
+      console.error('INIT callTx: error message:', err instanceof Error ? err.message : String(err));
+      console.error('INIT callTx: error stack:', err instanceof Error ? err.stack : err);
     }
   };
 
