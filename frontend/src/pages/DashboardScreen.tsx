@@ -84,7 +84,6 @@ setProgramState({
   // Check both localStorage address and env variable
   const isConfigured = contractAddress 
     && contractAddress !== 'REPLACE_WITH_DEPLOYED_ADDRESS'
-    && contractAddress !== ENV_CONTRACT_ADDRESS;
 
   if (!isConfigured) {
     return (
