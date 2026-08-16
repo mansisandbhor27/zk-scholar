@@ -1,4 +1,4 @@
-import { createCircuitCallTxInterface } from '@midnight-ntwrk/midnight-js-contracts';
+import { findDeployedContract } from '@midnight-ntwrk/midnight-js-contracts';
 import { useState, useCallback, useEffect } from 'react';
 import type { ConnectedAPI } from '@midnight-ntwrk/dapp-connector-api';
 import { useWalletContext } from '../contexts/WalletContext';
@@ -66,9 +66,22 @@ useEffect(() => {
       networkName,
       hasCompiledContract: false
     });
-    if (!connectedAPI || !contractAddress || !networkName) {
-      return;
-    }
+    if (!connectedAPI || !contractAddress) {
+  console.log('CALLTX INIT WAITING', {
+    hasConnectedAPI: !!connectedAPI,
+    hasContractAddress: !!contractAddress,
+  });
+  return;
+}
+
+const effectiveNetwork = networkName || 'preview';
+
+console.log('CALLTX EFFECT READY', {
+  hasConnectedAPI: !!connectedAPI,
+  contractAddress,
+  networkName,
+  effectiveNetwork,
+});
 
     try {
       console.log('Initializing callTx for existing contract...');
@@ -278,20 +291,24 @@ useEffect(() => {
         midnightProvider,
       };
 
-            console.log('CALLTX CREATING');
-      const existingCallTx =
-        createCircuitCallTxInterface(
-          providers,
-          compiledContract,
-          contractAddress as ContractAddress,
-          ZKSCHOLAR_PRIVATE_STATE_ID
-        );
+            console.log('🔵 FINDING DEPLOYED CONTRACT');
 
-      console.log('CALLTX CREATED', !!existingCallTx);
-      setCallTx(existingCallTx);
+const foundContract = await findDeployedContract(
+  providers,
+  {
+    compiledContract,
+    contractAddress: contractAddress as ContractAddress,
+    privateStateId: ZKSCHOLAR_PRIVATE_STATE_ID,
+    initialPrivateState: INITIAL_PRIVATE_STATE,
+  }
+);
 
-      console.log('CALLTX READY', !!existingCallTx);
-      console.log('✓ Existing contract callTx initialized');
+console.log('🟢 DEPLOYED CONTRACT FOUND');
+console.log('CALLTX CREATED:', !!foundContract.callTx);
+
+setCallTx(foundContract.callTx);
+
+console.log('CALLTX READY:', !!foundContract.callTx);
     } catch (err: any) {
       console.error('INIT callTx: FAILED to initialize existing contract callTx', err);
       console.error('INIT callTx: error message:', err instanceof Error ? err.message : String(err));

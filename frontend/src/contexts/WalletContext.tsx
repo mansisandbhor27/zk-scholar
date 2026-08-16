@@ -30,7 +30,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [wallet, setWallet] = useState<InitialAPI | null>(null);
   const [connectedAPI, setConnectedAPI] = useState<ConnectedAPI | null>(null);
   const [address, setAddress] = useState<string | null>(null);
-  const [networkName, setNetworkName] = useState<string | null>(null);
+  const [networkName, setNetworkName] = useState<string | null>(network);
   const [error, setError] = useState<string | null>(null);
 
   const detectWallet = useCallback(() => {
@@ -101,6 +101,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       const api = await walletToUse.connect(network);
       console.log('Wallet connected:', api);
       setConnectedAPI(api);
+setNetworkName(network);
       
       const addresses = await api.getShieldedAddresses();
       console.log('Shielded addresses:', addresses);
@@ -109,15 +110,24 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       }
       
       try {
-        const config = await api.getConfiguration();
-        console.log('Wallet configuration:', config);
-        setNetworkName(config.networkId);
-        if (config.networkId !== network) {
-          setError(`Connected wallet network mismatch. Expected ${network}, got ${config.networkId}.`);
-        }
-      } catch (e) {
-        setNetworkName(network);
-      }
+  const config = await api.getConfiguration();
+  console.log('Wallet configuration:', config);
+
+  const actualNetwork = config.networkId || network;
+  setNetworkName(actualNetwork);
+
+  if (actualNetwork !== network) {
+    setError(
+      `Connected wallet network mismatch. Expected ${network}, got ${actualNetwork}.`
+    );
+  }
+} catch (e) {
+  console.warn(
+    'Could not read wallet configuration, using configured network:',
+    e
+  );
+  setNetworkName(network);
+}
     } catch (err) {
       console.error('Connection error:', err);
       setError('Wallet connection rejected or failed.');
