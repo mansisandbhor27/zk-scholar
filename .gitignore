@@ -36,3 +36,7 @@ wsl_marker_confirm.txt
 
 # Proof artifacts from development/testing
 server/proofs/*.json
+
+# Local review backups
+frontend-backup-before-circuity-fix/
+zk-scholar-review.zip
