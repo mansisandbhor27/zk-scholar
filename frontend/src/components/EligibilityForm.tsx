@@ -248,9 +248,14 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
 
       console.log('🟢 STEP 4/6: AFTER proveEligibility — callTx returned:', result);
 
-      console.log('🟢 STEP 5/6: recordClaim skipped temporarily');
+      console.log('🟡 STEP 5/6: BEFORE recordClaim');
 
-console.log('🟢 STEP 6/6: proveEligibility transaction submitted successfully');
+const claimResult = await callTx.recordClaim();
+
+console.log(
+  '🟢 STEP 6/6: AFTER recordClaim — callTx returned:',
+  claimResult
+);
 
       setStatus('success');
       setMessage(
