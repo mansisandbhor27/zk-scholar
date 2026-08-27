@@ -9,10 +9,6 @@ const indexerUrl =
   import.meta.env.VITE_INDEXER_URL ||
   'https://indexer.preview.midnight.network';
 
-const contractAddress =
-  localStorage.getItem('zk-scholar-contract-address') ||
-  import.meta.env.VITE_CONTRACT_ADDRESS ||
-  '';
 const INDEXER_URL = "https://indexer.preview.midnight.network/api/v4/graphql";
 const INDEXER_WS_URL = "wss://indexer.preview.midnight.network/api/v4/graphql";
 
@@ -41,6 +37,10 @@ interface ProgramState {
 }
 
 export default function ClaimsDashboard() {
+  const contractAddress =
+    localStorage.getItem('zk-scholar-contract-address') ||
+    import.meta.env.VITE_CONTRACT_ADDRESS ||
+    '';
   const [programState, setProgramState] = useState<ProgramState | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

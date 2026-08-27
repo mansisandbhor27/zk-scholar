@@ -12,11 +12,6 @@ const publicDataProvider = indexerPublicDataProvider(
   INDEXER_WS_URL
 );
 
-const contractAddress =
-  localStorage.getItem('zk-scholar-contract-address') ||
-  import.meta.env.VITE_CONTRACT_ADDRESS ||
-  '';
-
 interface ProgramState {
   minScore: bigint;
   maxIncome: bigint;
@@ -26,7 +21,11 @@ interface ProgramState {
 }
 
 export default function ProgramConfig() {
-const { callTx } = useContractDeployment();
+  const contractAddress =
+    localStorage.getItem('zk-scholar-contract-address') ||
+    import.meta.env.VITE_CONTRACT_ADDRESS ||
+    '';
+  const { callTx } = useContractDeployment();
   const [programState, setProgramState] = useState<ProgramState | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

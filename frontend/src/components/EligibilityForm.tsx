@@ -20,11 +20,6 @@ const publicDataProvider = indexerPublicDataProvider(
   INDEXER_WS_URL
 );
 
-const contractAddress =
-  localStorage.getItem('zk-scholar-contract-address') ||
-  import.meta.env.VITE_CONTRACT_ADDRESS ||
-  '';
-
 interface ProgramState {
   minScore: bigint;
   maxIncome: bigint;
@@ -34,6 +29,10 @@ interface ProgramState {
 }
 
 export default function EligibilityForm() {
+  const contractAddress =
+    localStorage.getItem('zk-scholar-contract-address') ||
+    import.meta.env.VITE_CONTRACT_ADDRESS ||
+    '';
   const { callTx, contractAddress: hookContractAddress, networkName: hookNetworkName } = useContractDeployment();
   const { connectedAPI, isConnected: walletIsConnected } = useWalletContext();
   const [programState, setProgramState] = useState<ProgramState | null>(null);
