@@ -418,6 +418,18 @@ console.log('✓ Contract state received:', contractState);
                 <span>Index API:</span>
                 <code className="text-[var(--cyan-glow)]">Midnight Preview Indexer</code>
               </div>
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <button
+                  onClick={() => {
+                    localStorage.removeItem('zk-scholar-contract-address');
+                    setContractAddress(null);
+                    setProgramState(null);
+                  }}
+                  className="w-full px-4 py-2 bg-red-900/20 border border-red-700/50 hover:bg-red-900/40 text-red-200 rounded-lg text-sm transition font-medium"
+                >
+                  Reset & Redeploy Contract
+                </button>
+              </div>
             </div>
           </div>
         </div>
