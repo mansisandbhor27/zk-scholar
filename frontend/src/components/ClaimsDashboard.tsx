@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Users, CheckCircle, Calendar, Hash, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
-import { ledger } from '../../managed/contract/index';
+import { ledger } from '../../../managed/contract/index';
 import type { ContractAddress } from '@midnight-ntwrk/midnight-js-protocol/compact-runtime';
 
 const indexerUrl =

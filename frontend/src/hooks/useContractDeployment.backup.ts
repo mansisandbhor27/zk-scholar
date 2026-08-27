@@ -71,7 +71,7 @@ export function useContractDeployment() {
       }
       console.log('✓ Got addresses from wallet');
 
-      const { Contract } = await import('../../managed/contract/index');
+      const { Contract } = await import('../../../managed/contract/index');
       console.log('✓ Contract loaded');
 
       // Use FetchZkConfigProvider to get proving keys from the network

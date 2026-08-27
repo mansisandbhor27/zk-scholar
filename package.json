@@ -18,7 +18,9 @@
     "@midnight-ntwrk/midnight-js-contracts": "^4.1.1",
     "@midnight-ntwrk/midnight-js-fetch-zk-config-provider": "^4.1.1",
     "@midnight-ntwrk/midnight-js-http-client-proof-provider": "^4.1.1",
-    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "^4.1.1"
+    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-network-provider": "npm:@midnight-ntwrk/midnight-js-contracts@^4.1.1",
+    "@midnight-ntwrk/midnight-js-proof-provider": "npm:@midnight-ntwrk/midnight-js-http-client-proof-provider@^4.1.1"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",

@@ -41,7 +41,7 @@ export default function DashboardScreen() {
   await import('@midnight-ntwrk/midnight-js-indexer-public-data-provider');
 
 const { ledger } =
-  await import('../../managed/contract/index');
+  await import('../../../managed/contract/index');
 
 const { ContractAddress } =
   await import('@midnight-ntwrk/midnight-js-protocol/compact-runtime');

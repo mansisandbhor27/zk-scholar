@@ -101,7 +101,7 @@ console.log('CALLTX EFFECT READY', {
 
       setNetworkId(config.networkId);
 
-      const { Contract } = await import('../../managed/contract/index');
+      const { Contract } = await import('../../../managed/contract/index');
 
       const zkConfigProvider = new FetchZkConfigProvider(
   window.location.origin,
@@ -122,7 +122,7 @@ console.log('CALLTX EFFECT READY', {
 
       const walletProvider = {
         balanceTx: async (tx: any): Promise<any> => {
-          console.log('Balancing transaction via wallet...');
+          console.log('[7] Transaction balancing/signing started');
 
           const serializedTx = tx.serialize();
           const hexTx = toHex(serializedTx);
@@ -133,12 +133,14 @@ console.log('CALLTX EFFECT READY', {
           const { Transaction } =
             await import('@midnight-ntwrk/ledger-v8');
 
-          return Transaction.deserialize(
+          const balancedTx = Transaction.deserialize(
             'signature',
             'proof',
             'binding',
             fromHex(result.tx)
           ) as any;
+          console.log('[7] Transaction balancing/signing completed');
+          return balancedTx;
         },
 
         getCoinPublicKey: () => shieldedCoinPublicKey as any,
@@ -149,14 +151,11 @@ console.log('CALLTX EFFECT READY', {
 
       const midnightProvider = {
   submitTx: async (tx: any): Promise<string> => {
-    console.log('🚀 submitTx started');
+    console.log('[8] Wallet submission started');
 
     try {
       const serializedTx = tx.serialize();
       const hexTx = toHex(serializedTx);
-
-      console.log('📦 Serialized transaction length:', hexTx.length);
-      console.log('📤 Calling wallet submitTransaction...');
 
       const submitResult = await Promise.race([
         connectedAPI.submitTransaction(hexTx),
@@ -173,29 +172,36 @@ console.log('CALLTX EFFECT READY', {
         ),
       ]);
 
-      console.log(
-        '✅ Wallet submitTransaction returned:',
-        submitResult
-      );
+      console.log('[8] Wallet submission completed');
 
       const result = tx.identifiers();
       const txId = result[0];
 
-      console.log('✅ Transaction submitted, ID:', txId);
+      console.log('[9] Transaction ID', txId);
 
       return txId;
     } catch (error: any) {
-      console.error('❌ submitTx FAILED:', error);
-      console.error('❌ Error message:', error?.message);
-      console.error('❌ Error stack:', error?.stack);
+      console.error('[8] Wallet submission failed', error);
       throw error;
     }
   },
 };
          
 
-      const proofProvider =
-        createProofProvider(provingProvider);
+      const baseProofProvider = createProofProvider(provingProvider);
+      const proofProvider = {
+        proveTx: async (...args: Parameters<typeof baseProofProvider.proveTx>) => {
+          console.log('[5] Proof generation started');
+          try {
+            const provedTx = await baseProofProvider.proveTx(...args);
+            console.log('[5] Proof generation completed');
+            return provedTx;
+          } catch (error) {
+            console.error('[5] Proof generation failed', error);
+            throw error;
+          }
+        },
+      };
 
       const publicDataProvider =
         indexerPublicDataProvider(
@@ -341,7 +347,7 @@ console.log('CALLTX READY:', !!foundContract.callTx);
       }
       console.log('✓ Got addresses from wallet');
 
-      const { Contract } = await import('../../managed/contract/index');
+      const { Contract } = await import('../../../managed/contract/index');
       console.log('✓ Contract loaded');
 
       // Use FetchZkConfigProvider to get proving keys from the network

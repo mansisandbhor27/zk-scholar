@@ -3,7 +3,7 @@ import { useContractDeployment } from '../hooks/useContractDeployment';
 import { Settings, Save, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
-import { ledger } from '../../managed/contract/index';
+import { ledger } from '../../../managed/contract/index';
 import type { ContractAddress } from '@midnight-ntwrk/midnight-js-protocol/compact-runtime';
 import { firstValueFrom } from 'rxjs';
 

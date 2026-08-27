@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Lock, ShieldCheck, Database, Sparkles } from 'lucide-react';
 import { INDEXER_URL, INDEXER_WS_URL } from '../lib/indexer';
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
-import { ledger } from '../../managed/contract/index';
+import { ledger } from '../../../managed/contract/index';
 import type { ContractAddress } from '@midnight-ntwrk/midnight-js-protocol/compact-runtime';
 
 const publicDataProvider = indexerPublicDataProvider(INDEXER_URL, INDEXER_WS_URL);

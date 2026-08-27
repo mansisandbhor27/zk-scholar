@@ -3,7 +3,7 @@ import { Award, Shield, Settings, Send, RefreshCw, AlertCircle, CheckCircle, Use
 import { useWallet } from '../hooks/useWallet';
 import { useContractDeployment } from '../hooks/useContractDeployment';
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
-import { ledger } from '../../managed/contract/index';
+import { ledger } from '../../../managed/contract/index';
 import type { ContractAddress } from '@midnight-ntwrk/midnight-js-protocol/compact-runtime';
 const indexerUrl = "https://indexer.preview.midnight.network";
 const INDEXER_URL = "https://indexer.preview.midnight.network/api/v4/graphql";
