@@ -40,9 +40,7 @@ export circuit proveEligibility(score: Uint<64>, income: Uint<64>, age: Uint<64>
   assert(income < maxIncome, "Income above threshold");
   assert(age >= minAge, "Age below threshold");
    
-claimCount.increment(1);
-
-  disclose(true);
+  claimCount.increment(1);
 }
 
 
