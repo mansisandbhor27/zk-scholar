@@ -164,7 +164,7 @@ export class Contract {
                                                   score_0,
                                                   income_0,
                                                   age_0);
-        partialProofData.output = { value: [], alignment: [] };
+        partialProofData.output = { value: _descriptor_1.toValue(result_0), alignment: _descriptor_1.alignment() };
         return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
       }
     };
@@ -454,7 +454,7 @@ export class Contract {
                                                                 .value
                                                             )) } },
                                        { ins: { cached: true, n: 1 } }]);
-    return [];
+    return true;
   }
 }
 export function ledger(stateOrChargedState) {

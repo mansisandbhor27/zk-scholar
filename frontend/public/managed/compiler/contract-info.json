@@ -64,9 +64,7 @@
         }
       ],
       "result-type": {
-        "type-name": "Tuple",
-        "types": [
-        ]
+        "type-name": "Boolean"
       }
     }
   ],
