@@ -1,4 +1,4 @@
-const DEFAULT_INDEXER_BASE = 'https://indexer.preview.midnight.network';
+const DEFAULT_INDEXER_BASE = 'https://api-preview.1am.xyz';
 
 /**
  * Normalizes an indexer endpoint so the GraphQL HTTP endpoint always resolves

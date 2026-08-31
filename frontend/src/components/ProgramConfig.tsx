@@ -203,12 +203,12 @@ console.log('✓ createScholarshipProgram transaction submitted:', result);
               <CheckCircle className="text-green-400" />
               <span className="font-medium text-green-400">Program Active</span>
             </div>
-            <p className="text-sm text-green-300 mt-1">
+            <div className="text-sm text-green-300 mt-1">
               <div>Current thresholds:</div>
               <div>• Score: {programState?.minScore?.toString() || '--'}%</div>
               <div>• Max Income: ₹{programState?.maxIncome?.toString() || '--'}</div>
               <div>• Min Age: {programState?.minAge?.toString() || '--'} years</div>
-            </p>
+            </div>
           </div>
         )}
 {!programCreated && (
