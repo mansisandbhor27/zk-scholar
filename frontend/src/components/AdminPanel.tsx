@@ -116,9 +116,6 @@ console.log('✓ Contract state received:', contractState);
       
       // Update localStorage
       localStorage.setItem(LOCAL_STORAGE_KEY, result.address!);
-      
-      // Refresh state with new contract address
-      setTimeout(() => fetchState(), 1000);
     }
   };
 
