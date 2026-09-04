@@ -33,14 +33,18 @@ export circuit createScholarshipProgram(scoreThreshold: Uint<64>, incomeThreshol
   programCreated = disclose(true);
 }
 
-export circuit proveEligibility(score: Uint<64>, income: Uint<64>, age: Uint<64>): Boolean {
+export circuit proveEligibility(score: Uint<64>, income: Uint<64>, age: Uint<64>): [] {
   assert(programCreated == true, "Program not created");
 
   assert(score >= minScore, "Score below threshold");
   assert(income < maxIncome, "Income above threshold");
-  assert(age >= minAge, "Age below threshold");
-   
-  return disclose(true);
+   assert(age >= minAge, "Age below threshold");
+
+  disclose(true);
 }
 
+export circuit recordClaim(): [] {
+  assert(programCreated == true, "Program not created");
+  claimCount.increment(1);
+}
 
