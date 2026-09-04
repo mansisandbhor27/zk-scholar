@@ -7,6 +7,7 @@ type WalletContextType = {
   connectedAPI: ConnectedAPI | null;
   wallet: InitialAPI | null;
   address: string | null;
+    shieldedAddresses: any;
   networkName: string | null;
   isConnected: boolean;
   error: string | null;
@@ -30,6 +31,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [wallet, setWallet] = useState<InitialAPI | null>(null);
   const [connectedAPI, setConnectedAPI] = useState<ConnectedAPI | null>(null);
   const [address, setAddress] = useState<string | null>(null);
+  const [shieldedAddresses, setShieldedAddresses] = useState<any>(null);
   const [networkName, setNetworkName] = useState<string | null>(network);
   const [error, setError] = useState<string | null>(null);
 
@@ -105,6 +107,8 @@ setNetworkName(network);
       
       const addresses = await api.getShieldedAddresses();
       console.log('Shielded addresses:', addresses);
+      setShieldedAddresses(addresses);
+      console.log('SHIELDED ADDRESSES ACTUAL:', JSON.stringify(addresses, null, 2));
       if (addresses && (addresses as any).shieldedAddress) {
         setAddress((addresses as any).shieldedAddress);
       }
@@ -146,6 +150,7 @@ setNetworkName(network);
       connectedAPI,
       wallet,
       address,
+      shieldedAddresses,
       networkName,
       isConnected: connectedAPI !== null,
       error,
