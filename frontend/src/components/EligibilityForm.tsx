@@ -230,6 +230,11 @@ console.log('PROGRAM CREATED:', contractLedger.programCreated);
       const txId = result.public.txId;
       console.log('[9] Transaction ID', txId);
 
+      console.log('[10] Calling recordClaim');
+      const claimResult = await callTx.recordClaim();
+      const claimTxId = claimResult.public.txId;
+      console.log('[11] Claim recorded, Transaction ID', claimTxId);
+
       // Save the redacted local receipt only after the Midnight transaction has
       // actually been proved, balanced, and submitted successfully.
       const localRecord = {
