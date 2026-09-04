@@ -11,7 +11,8 @@ export type ImpureCircuits<PS> = {
   proveEligibility(context: __compactRuntime.CircuitContext<PS>,
                    score_0: bigint,
                    income_0: bigint,
-                   age_0: bigint): __compactRuntime.CircuitResults<PS, boolean>;
+                   age_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+  recordClaim(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
 }
 
 export type ProvableCircuits<PS> = {
@@ -22,7 +23,8 @@ export type ProvableCircuits<PS> = {
   proveEligibility(context: __compactRuntime.CircuitContext<PS>,
                    score_0: bigint,
                    income_0: bigint,
-                   age_0: bigint): __compactRuntime.CircuitResults<PS, boolean>;
+                   age_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+  recordClaim(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
 }
 
 export type PureCircuits = {
@@ -36,7 +38,8 @@ export type Circuits<PS> = {
   proveEligibility(context: __compactRuntime.CircuitContext<PS>,
                    score_0: bigint,
                    income_0: bigint,
-                   age_0: bigint): __compactRuntime.CircuitResults<PS, boolean>;
+                   age_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+  recordClaim(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
 }
 
 export type Ledger = {
