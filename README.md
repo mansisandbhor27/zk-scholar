@@ -96,6 +96,122 @@ ZK-Scholar is designed to verify scholarship eligibility while minimizing exposu
 The following information is used as eligibility input:
 
 ```text
-Academic Score
-Family Income
-Age
+### Private Eligibility Information
+
+The following information is used as eligibility input:
+
+Academic Score, Family Income, Age.
+
+These values are used as private circuit inputs during proof generation. The application does not store the student's exact score, income, or age as public contract ledger state.
+
+### What an Observer Can Learn
+
+- Minimum score threshold
+- Maximum income threshold
+- Minimum age threshold
+- Whether the scholarship program has been created
+- Total number of recorded claims
+- Public blockchain transaction information associated with contract activity
+
+### What an Observer Cannot Learn
+
+- The student's exact academic score
+- The student's exact family income
+- The student's exact age
+
+The contract verifies the eligibility conditions without storing the student's exact eligibility values as public ledger state.
+
+Therefore, ZK-Scholar demonstrates an Age / Eligibility Gate privacy model: a student can prove that private information satisfies predefined eligibility requirements without publicly revealing the underlying values.
+
+> Privacy note: Public scholarship thresholds and aggregate claim information are intentionally visible. Sensitive student eligibility values are not recorded as public contract state.
+
+---
+
+# 🧪 Testing
+
+The project includes automated tests using Vitest.
+
+Current local test result: 3 tests passed.
+
+Run tests locally with:
+
+npm test
+
+---
+
+# 🔄 CI/CD
+
+ZK-Scholar uses GitHub Actions for continuous integration.
+
+The CI workflow installs dependencies, runs automated tests, and runs the TypeScript build check.
+
+Workflow file: .github/workflows/ci.yml
+
+---
+
+# 🛠️ Local Development
+
+## Prerequisites
+
+- Node.js 20+
+- npm
+- Midnight Preview Wallet
+- Midnight Preview Network access
+
+## Install Dependencies
+
+npm install
+
+## Run Tests
+
+npm test
+
+## TypeScript Build Check
+
+npm run build
+
+## Start Frontend
+
+npm run frontend:dev
+
+---
+
+# 🏗️ Technology Stack
+
+- Midnight Network
+- Compact Smart Contracts
+- Zero-Knowledge Proofs
+- React
+- TypeScript
+- Vite
+- Midnight Preview Wallet
+- Midnight Indexer
+- Vitest
+- GitHub Actions
+
+---
+
+# 🎯 Product Idea
+
+ZK-Scholar implements the Age / Eligibility Gate concept.
+
+The goal is to verify whether private information satisfies predefined eligibility requirements without requiring the user to publicly reveal the underlying sensitive values.
+
+This model can be extended to scholarship eligibility, age-restricted access, income-based benefits, academic qualification verification, and other privacy-preserving eligibility systems.
+
+---
+
+# 📌 Project Status
+
+- Midnight Preview deployment
+- Wallet integration
+- Zero-Knowledge eligibility verification
+- Private eligibility inputs
+- On-chain claim recording
+- Claim counter
+- Dashboard
+- Automated tests
+- GitHub Actions CI
+- TypeScript build verification
+- Public GitHub repository
+- Live demo
