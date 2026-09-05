@@ -139,6 +139,14 @@ npm test
 
 ---
 
+# 🧪 Test Results Screenshot
+
+The automated test suite passes all 3 tests:
+
+![Test Results](docs/test-results.png)
+
+---
+
 # 🔄 CI/CD
 
 ZK-Scholar uses GitHub Actions for continuous integration.
@@ -215,3 +223,8 @@ This model can be extended to scholarship eligibility, age-restricted access, in
 - TypeScript build verification
 - Public GitHub repository
 - Live demo
+
+# 🎥 Live Demo Video
+
+[▶️ Watch the 1-Minute Live Demo](docs/live-demo.mp4)
+
