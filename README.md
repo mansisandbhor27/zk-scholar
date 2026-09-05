@@ -223,5 +223,5 @@ This model can be extended to scholarship eligibility, age-restricted access, in
 
 # 🎥 Live Demo Video
 
-[▶️ Watch the 1-Minute Live Demo](docs/live-demo.mp4)
+[▶️ Watch the 1-Minute Live Demo](https://raw.githubusercontent.com/mansisandbhor27/zk-scholar/main/docs/live-demo.mp4)
 
