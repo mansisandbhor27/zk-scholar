@@ -95,10 +95,7 @@ ZK-Scholar is designed to verify scholarship eligibility while minimizing exposu
 
 The following information is used as eligibility input:
 
-```text
-### Private Eligibility Information
 
-The following information is used as eligibility input:
 
 Academic Score, Family Income, Age.
 
